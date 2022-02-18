@@ -7,14 +7,19 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import AuthProvider from "./context/auth";
 import Profile from './pages/Profile';
+import { auth } from './firebase-config';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const App = () => {
+    const [user] = useAuthState(auth);
+    console.log(user);
+
     return (
         <AuthProvider>
             <Router>
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={!user?<Login/>:<Home />} />
                     <Route path="/register" element={<Register/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/profile" element={<Profile/>} />
